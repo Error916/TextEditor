@@ -1,6 +1,6 @@
 CFLAGS=-Wall -Wextra -std=c11 -pedantic -ggdb #-O3
 LIBS=-lSDL2 -lm
-SRC=src/main.c src/la.c
+SRC=src/main.c src/la.c src/buffer.c
 CC=gcc
 
 texteditor: $(SRC)
