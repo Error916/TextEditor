@@ -149,11 +149,12 @@ void render_cursor(SDL_Renderer *renderer, const Font *font){
 	}
 }
 
-// TODO: more the cursor around -> implement the rest of the moviment (UP/DOWN)
 // TODO: jump back/forward by a word
 // TODO: delite a word
 // TODO: make the cursor blink
 // TODO: Save and load files
+// TODO: Delite line
+// TODO: insert line between chars
 
 int main(int argc, char **argv){
 	(void) argc;
@@ -164,6 +165,8 @@ int main(int argc, char **argv){
 	SDL_Window *window = scp(SDL_CreateWindow("Texteditor", 0, 0, 800, 600, SDL_WINDOW_RESIZABLE));
 	SDL_Renderer *renderer = scp(SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED));
 	Font font = font_load_from_file(renderer, "./font/charmap-oldschool_white.png");
+
+	editor_insert_text_before_cursor(&editor, ""); // some strange inizialization beviour
 
 	bool quit = false;
 	while(!quit){
@@ -179,6 +182,10 @@ int main(int argc, char **argv){
 						case SDLK_BACKSPACE: {
 							editor_backspace_before_cursor(&editor);
 						} break;
+
+						case SDLK_F2: {
+                    					editor_save_to_file(&editor, "output");
+                				} break;
 
 						case SDLK_DELETE: {
 							editor_delete_over_cursor(&editor);
@@ -220,7 +227,7 @@ int main(int argc, char **argv){
 		scc(SDL_RenderClear(renderer));
 
 		for(size_t row = 0; row < editor.size; ++row){
-			const Line *line = &editor.lines[row];
+			const Line *line = editor.lines + row;
 			render_text_sized(renderer, &font, line->chars, line->size, vec2f(0.0f , (float) row * FONT_CHAR_HEIGHT * FONT_SCALE), 0xFFFFFFFF, FONT_SCALE);
 		}
 		render_cursor(renderer, &font);

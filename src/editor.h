@@ -26,5 +26,6 @@ void editor_backspace_before_cursor(Editor *editor);
 void editor_delete_over_cursor(Editor *editor);
 void editor_insert_new_line(Editor *editor);
 const char *editor_char_under_cursor(const Editor *editor);
+void editor_save_to_file(const Editor *editor, const char *file_path);
 
 #endif //EDITOR_H_
